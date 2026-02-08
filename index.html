@@ -15,26 +15,15 @@
   <link rel="stylesheet" href="/style.css">  <!-- 如果文件名是 Style.css，改成 href="/Style.css" -->
 </head>
 <body>
-  <h1>NBS Digital Twin 项目</h1>
-  <p>展示 Nature-Based Solutions 与 Digital Twin 相关论文及 Ireland 河流盆地地图</p>
+
+  </p>
   
   <!-- 地图容器 -->
-  <div id="map" style="height: 500px; width: 100%; border: 1px solid #ccc;"></div>
-  
-  <h2>相关论文下载</h2>
-  <ul>
-    <li><a href="D3.2 NBSInfra_Digital_Twin_Framework_V2.pdf" target="_blank">D3.2 – NBSINFRA Digital Twin Framework</a></li>
-    <li><a href="1-s2.0-S0301479723011775-main.pdf" target="_blank">Real time control of NBS in Rangsit Area, Thailand</a></li>
-    <li><a href="1-s2.0-S0048969722047015-main.pdf" target="_blank">Digital Twin for seagrass NBS against storm surges</a></li>
-    <li><a href="Exploring the concept of digital twins of wetlands.pdf" target="_blank">Digital twins of wetlands for ecosystem monitoring</a></li>
-    <li><a href="s43247-024-01626-x.pdf" target="_blank">Digital twins of the Earth with and for humans</a></li>
-    <!-- 添加其他 PDF 文件名，如果有 -->
-  </ul>
+  <div id="map" style="height: 1000px; width: 100%; border: 1px solid #ccc;"></div>
 
   <!-- 你的本地脚本 -->
-  <script src="/Script.js"></script>  <!-- 如果文件名是 Script.js，保持；否则改成 script.js -->
+  <script src="/Script.js"></script>  
 
-  <!-- 地图初始化脚本（放在本地 Script.js 更好，这里仅示例） -->
   <script>
     // 初始化地图（中心设为 Ireland 大致位置）
     var map = L.map('map').setView([53.35, -7.26], 7);  // 纬度,经度,缩放级别
@@ -56,3 +45,5 @@
   </script>
 </body>
 </html>
+</html>
+
