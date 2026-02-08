@@ -1,30 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ireland Climate Adaptation Map</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NBS Digital Twin - Ireland Climate Adaptation Map & Documents</title>
+  
+  <!-- Leaflet CSS & JS from CDN -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  
+  <!-- 你的本地样式（已上传 Style.css → 改用 style.css 或修正文件名） -->
+  <link rel="stylesheet" href="/style.css">  <!-- 如果文件名是 Style.css，改成 href="/Style.css" -->
 </head>
 <body>
-    <div id="map"></div>
+  <h1>NBS Digital Twin 项目</h1>
+  <p>展示 Nature-Based Solutions 与 Digital Twin 相关论文及 Ireland 河流盆地地图</p>
+  
+  <!-- 地图容器 -->
+  <div id="map" style="height: 500px; width: 100%; border: 1px solid #ccc;"></div>
+  
+  <h2>相关论文下载</h2>
+  <ul>
+    <li><a href="D3.2 NBSInfra_Digital_Twin_Framework_V2.pdf" target="_blank">D3.2 – NBSINFRA Digital Twin Framework</a></li>
+    <li><a href="1-s2.0-S0301479723011775-main.pdf" target="_blank">Real time control of NBS in Rangsit Area, Thailand</a></li>
+    <li><a href="1-s2.0-S0048969722047015-main.pdf" target="_blank">Digital Twin for seagrass NBS against storm surges</a></li>
+    <li><a href="Exploring the concept of digital twins of wetlands.pdf" target="_blank">Digital twins of wetlands for ecosystem monitoring</a></li>
+    <li><a href="s43247-024-01626-x.pdf" target="_blank">Digital twins of the Earth with and for humans</a></li>
+    <!-- 添加其他 PDF 文件名，如果有 -->
+  </ul>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-realtime@2.2.0/dist/leaflet-realtime.js"></script>
-    <script src="script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
-</body>
-</body>
+  <!-- 你的本地脚本 -->
+  <script src="/Script.js"></script>  <!-- 如果文件名是 Script.js，保持；否则改成 script.js -->
 
+  <!-- 地图初始化脚本（放在本地 Script.js 更好，这里仅示例） -->
+  <script>
+    // 初始化地图（中心设为 Ireland 大致位置）
+    var map = L.map('map').setView([53.35, -7.26], 7);  // 纬度,经度,缩放级别
+
+    // 添加 OpenStreetMap 底图
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // 加载你的 GeoJSON 文件（河流盆地区域）
+    fetch('/River_Basin_Districts.geojson')
+      .then(response => response.json())
+      .then(data => {
+        L.geoJSON(data, {
+          style: { color: "#3388ff", weight: 2, fillOpacity: 0.2 }
+        }).addTo(map);
+      })
+      .catch(error => console.error('GeoJSON 加载失败:', error));
+  </script>
+</body>
 </html>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<link rel="stylesheet" href="path/to/wind-js-leaflet.css" />
-<script src="path/to/jquery.min.js"></script>
-<script src="path/to/wind-js-leaflet.js"></script>
-
