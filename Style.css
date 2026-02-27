@@ -1,3 +1,83 @@
 body { margin: 0; padding: 0; }
 #map { height: 100vh; width: 100vw; }
 .temp-icon { background: transparent; border: none; }
+/* Modern UI adjustments */
+.leaflet-control-layers, .info, .leaflet-control-zoom {
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15) !important;
+    border-radius: 12px !important;
+}
+
+.leaflet-control-layers {
+    padding: 10px 15px !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(5px);
+}
+
+/* Weather Icon Styling */
+.custom-weather-icon div {
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.custom-weather-icon div:hover {
+    transform: scale(1.1);
+    background: #fff !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3) !important;
+    z-index: 1000;
+}
+
+/* Info Panel Styling */
+.info {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.info h4 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.1em;
+}
+
+/* Area Filter Styling */
+.area-filter-container {
+    background: white;
+    padding: 12px;
+    border-radius: 12px;
+}
+
+/* 现代悬浮卡片样式 */
+.leaflet-control-layers, .info, .area-filter-container {
+    border: none !important;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12) !important;
+    border-radius: 16px !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(10px); /* 磨砂玻璃效果 */
+    padding: 12px !important;
+    font-family: 'Inter', -apple-system, sans-serif !important;
+}
+
+/* 选项卡标题美化 */
+.leaflet-control-layers-group-name {
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 8px;
+    display: block;
+    border-bottom: 1px solid #eee;
+}
+
+/* 交互动画 */
+.custom-weather-icon div:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
+}
+
+/* 滚动条美化 */
+.leaflet-control-layers-list::-webkit-scrollbar {
+    width: 4px;
+}
+.leaflet-control-layers-list::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
