@@ -5,34 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ireland Climate Adaptation Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="Style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="map"></div>
 
-    <!-- 1. Leaflet -->
+    <!-- 1. Leaflet core -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-realtime@2.2.0/dist/leaflet-realtime.js"></script>
 
-    <!-- 2. Patch fitBounds/setView BEFORE script.js creates the map -->
+    <!-- 2. Patch fitBounds BEFORE script.js initialises the map -->
     <script src="map-patch.js"></script>
 
-    <!-- 3. Chart.js -->
+    <!-- 3. Chart.js (shared by water-level charts and api_flood.js) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 
-    <!-- 4. Main map logic -->
-    <script src="Script.js"></script>
+    <!-- 4. Main Leaflet map logic -->
+    <script src="script.js"></script>
 
-    <!-- 5. Weather Layers: Wind / Heatmap / Timeline -->
+    <!-- 5. API Flood Risk Monitor (Dublin — APIt = k·APIt-1 + Pt) -->
+    <script src="api_flood.js"></script>
+
+    <!-- 6. Weather Layers: Wind / Heatmap / Radar Timeline -->
     <script src="weather_layers.js"></script>
 
-    <!-- 6. 3D NBS Planner -->
+    <!-- 7. 3D NBS Planner (MapLibre) -->
     <script src="3d_buildings.js"></script>
 
 </body>
 </html>
+
+
 
 
 
