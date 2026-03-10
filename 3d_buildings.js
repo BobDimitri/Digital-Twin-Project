@@ -363,6 +363,120 @@
     .maplibregl-popup-close-button {
         color: #64748b !important; font-size: 16px !important; right: 8px !important; top: 6px !important;
     }
+
+    /* ══ DRAW ZONE PANEL ══════════════════════════════════════════ */
+    #draw-hint-bar {
+        position:absolute; top:54px; left:50%; transform:translateX(-50%);
+        background:rgba(15,23,42,.93); color:#38bdf8;
+        border:1px solid rgba(56,189,248,.35); border-radius:8px;
+        padding:7px 20px; font:600 11px 'Inter',sans-serif;
+        z-index:20; pointer-events:none; white-space:nowrap;
+        opacity:0; transition:opacity .25s;
+    }
+    #draw-hint-bar.show { opacity:1; }
+
+    #panel-zones {
+        position:absolute; right:0; top:44px; bottom:44px;
+        width:276px; z-index:10;
+        transform:translateX(102%);
+        transition:transform .3s cubic-bezier(.23,1,.32,1);
+    }
+    #panel-zones.open { transform:translateX(0); }
+    #panel-zones-inner {
+        height:100%; background:rgba(9,14,28,.97);
+        border-left:1px solid rgba(255,255,255,.07);
+        display:flex; flex-direction:column; overflow:hidden;
+        font-family:'Inter',system-ui,sans-serif;
+    }
+    #pz-head {
+        padding:14px 16px 10px;
+        border-bottom:1px solid rgba(255,255,255,.06);
+        display:flex; align-items:center; justify-content:space-between; flex-shrink:0;
+    }
+    #pz-head-title { font:700 13px 'Inter'; color:#e2e8f0; }
+    #btn-pz-close {
+        background:rgba(255,255,255,.06); border:none; border-radius:6px;
+        color:rgba(255,255,255,.4); width:24px; height:24px; font-size:12px;
+        cursor:pointer; display:flex; align-items:center; justify-content:center;
+        transition:all .15s;
+    }
+    #btn-pz-close:hover { background:rgba(255,255,255,.13); color:#fff; }
+
+    #pz-controls {
+        padding:10px 14px 12px;
+        border-bottom:1px solid rgba(255,255,255,.06); flex-shrink:0;
+    }
+    #btn-draw-start {
+        width:100%; padding:9px 0; border-radius:8px;
+        background:rgba(56,189,248,.10); border:1px solid rgba(56,189,248,.3);
+        color:#38bdf8; font:600 11px 'Inter'; cursor:pointer;
+        display:flex; align-items:center; justify-content:center; gap:7px;
+        transition:all .18s;
+    }
+    #btn-draw-start:hover:not(.active) { background:rgba(56,189,248,.18); }
+    #btn-draw-start.active {
+        background:rgba(239,68,68,.10); border-color:rgba(239,68,68,.35); color:#f87171;
+    }
+    #pz-type-row {
+        display:flex; align-items:center; gap:8px; margin-top:9px;
+    }
+    #pz-type-row label { font:500 10px 'Inter'; color:#64748b; white-space:nowrap; }
+    #pz-nbs-sel {
+        flex:1; padding:6px 8px; border-radius:6px;
+        background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.10);
+        color:#cbd5e1; font:500 11px 'Inter'; cursor:pointer; appearance:none;
+    }
+    #pz-nbs-sel:focus { outline:none; border-color:rgba(56,189,248,.5); }
+
+    #pz-list { flex:1; overflow-y:auto; padding:8px 10px; }
+    #pz-empty {
+        text-align:center; padding:28px 0;
+        font:400 11px 'Inter'; color:rgba(255,255,255,.2);
+        line-height:1.6;
+    }
+    .zcard {
+        background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.07);
+        border-radius:10px; padding:10px 12px; margin-bottom:7px;
+        transition:border-color .2s;
+    }
+    .zcard:hover { border-color:rgba(255,255,255,.14); }
+    .zcard-top {
+        display:flex; align-items:center; gap:6px; margin-bottom:8px;
+    }
+    .zcard-name { font:600 11px 'Inter'; color:#e2e8f0; flex:1; }
+    .zcard-badge {
+        font:600 9px 'Inter'; padding:2px 7px; border-radius:10px;
+        text-transform:uppercase; letter-spacing:.4px;
+    }
+    .zcard-del {
+        background:none; border:none; color:rgba(255,255,255,.2);
+        cursor:pointer; font-size:13px; line-height:1; padding:0 2px;
+        transition:color .15s; margin-left:2px;
+    }
+    .zcard-del:hover { color:#f87171; }
+    .zstats { display:grid; grid-template-columns:1fr 1fr 1fr; gap:4px; }
+    .zstat { background:rgba(0,0,0,.25); border-radius:6px; padding:5px 7px; }
+    .zstat-v { font:700 12px 'JetBrains Mono',monospace; color:#94a3b8; }
+    .zstat-l { font:400 8px 'Inter'; color:#475569; margin-top:1px; }
+
+    #pz-totals {
+        padding:10px 14px 12px;
+        border-top:1px solid rgba(255,255,255,.06); flex-shrink:0;
+    }
+    .pzt-row {
+        display:flex; justify-content:space-between;
+        font:500 10px 'Inter'; color:rgba(255,255,255,.28); margin-bottom:4px;
+    }
+    .pzt-row span:last-child {
+        color:#94a3b8; font:600 10px 'JetBrains Mono',monospace;
+    }
+    #btn-pz-clear {
+        width:100%; margin-top:8px; padding:6px 0; border-radius:6px;
+        background:rgba(239,68,68,.07); border:1px solid rgba(239,68,68,.18);
+        color:#f87171; font:600 10px 'Inter'; cursor:pointer; transition:all .18s;
+    }
+    #btn-pz-clear:hover { background:rgba(239,68,68,.16); }
+
     `;
     document.head.appendChild(css);
 
@@ -473,6 +587,15 @@ function enterMode()
                 NBS Panel
             </button>
             <div class="bar-sep"></div>
+            <button class="tool-btn" id="tb-draw-zone">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                    <line x1="12" y1="12" x2="12" y2="22"/>
+                    <line x1="2" y1="17" x2="12" y2="22"/><line x1="22" y1="17" x2="12" y2="22"/>
+                </svg>
+                Draw Zone
+            </button>
+            <div class="bar-sep"></div>
             <button class="tool-btn" id="tb-export">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
@@ -480,6 +603,46 @@ function enterMode()
                 </svg>
                 Export
             </button>
+        </div>
+
+        <!-- Draw mode hint bar -->
+        <div id="draw-hint-bar">✏️ Click to add points &nbsp;·&nbsp; Double-click to finish &nbsp;·&nbsp; Esc to cancel</div>
+
+        <!-- Draw Zone panel -->
+        <div id="panel-zones">
+            <div id="panel-zones-inner">
+                <div id="pz-head">
+                    <span id="pz-head-title">🟩 NBS Green Zones</span>
+                    <button id="btn-pz-close">✕</button>
+                </div>
+                <div id="pz-controls">
+                    <button id="btn-draw-start">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                        </svg>
+                        Draw New Zone
+                    </button>
+                    <div id="pz-type-row">
+                        <label>NBS Type</label>
+                        <select id="pz-nbs-sel">
+                            <option value="rain_garden" selected>💧 Rain Garden</option>
+                            <option value="green_roof">🌿 Green Roof</option>
+                            <option value="wetland">🌊 Wetland</option>
+                            <option value="green_wall">🍃 Green Wall</option>
+                            <option value="solar_green">☀️ Solar Green</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="pz-list">
+                    <div id="pz-empty">No zones drawn yet.<br>Click "Draw New Zone" to start.</div>
+                </div>
+                <div id="pz-totals">
+                    <div class="pzt-row"><span>Total Area</span><span id="pzt-area">—</span></div>
+                    <div class="pzt-row"><span>Runoff Mitigated (30mm storm)</span><span id="pzt-runoff">—</span></div>
+                    <div class="pzt-row"><span>Carbon Saved / yr</span><span id="pzt-carbon">—</span></div>
+                    <button id="btn-pz-clear">🗑 Clear All Zones</button>
+                </div>
+            </div>
         </div>
 
         <!-- Hint -->
@@ -614,6 +777,231 @@ function enterMode() {
             this.classList.toggle('on', open);
         };
 
+
+        // ══ Draw Zone toolbar button ══════════════════════════════════
+        overlay.querySelector('#tb-draw-zone').onclick = function() {
+            const open = document.getElementById('panel-zones').classList.toggle('open');
+            this.classList.toggle('on', open);
+            if (open) {
+                // Close NBS panel when Draw opens
+                document.getElementById('panel-nbs').classList.remove('open');
+                overlay.querySelector('#tb-nbs-panel').classList.remove('on');
+            } else {
+                cancelDraw();
+            }
+        };
+        document.getElementById('btn-pz-close').onclick = () => {
+            document.getElementById('panel-zones').classList.remove('open');
+            overlay.querySelector('#tb-draw-zone').classList.remove('on');
+            cancelDraw();
+        };
+        document.getElementById('btn-draw-start').onclick = () => {
+            drawMode ? cancelDraw() : startDraw();
+        };
+        document.getElementById('btn-pz-clear').onclick = () => {
+            zones = []; zoneId = 0;
+            cancelDraw();
+            syncZonesLayer();
+            renderZonesPanel();
+        };
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && drawMode) cancelDraw();
+        });
+
+        // ══ Draw Zone state ═══════════════════════════════════════════
+        let drawMode = false, drawPts = [], zoneId = 0, zones = [];
+
+        // Impact coefficients: runoff fraction of rainfall captured, carbon kg/m²/yr
+        const ZI = {
+            rain_garden: { runoff:.80, carbon:1.2,  color:'#3b82f6', label:'💧 Rain Garden' },
+            green_roof:  { runoff:.65, carbon:2.5,  color:'#22c55e', label:'🌿 Green Roof'  },
+            wetland:     { runoff:.90, carbon:0.8,  color:'#06b6d4', label:'🌊 Wetland'      },
+            green_wall:  { runoff:.10, carbon:3.5,  color:'#84cc16', label:'🍃 Green Wall'   },
+            solar_green: { runoff:.40, carbon:15.0, color:'#f59e0b', label:'☀️ Solar Green'  },
+        };
+
+        // Accurate spherical polygon area (m²) using the shoelace on a sphere
+        function geoAreaM2(pts) {
+            if (pts.length < 3) return 0;
+            const R = 6371000, n = pts.length;
+            let s = 0;
+            for (let i = 0; i < n; i++) {
+                const j = (i + 1) % n;
+                const l1 = pts[i][0] * Math.PI/180, p1 = pts[i][1] * Math.PI/180;
+                const l2 = pts[j][0] * Math.PI/180, p2 = pts[j][1] * Math.PI/180;
+                s += (l2 - l1) * (2 + Math.sin(p1) + Math.sin(p2));
+            }
+            return Math.abs(s) * R * R / 2;
+        }
+
+        function fmtArea(m2) {
+            return m2 >= 10000 ? (m2/10000).toFixed(2)+' ha' : Math.round(m2).toLocaleString()+' m²';
+        }
+        function fmtCarbon(kg) {
+            return kg >= 1000 ? (kg/1000).toFixed(1)+' t' : Math.round(kg)+' kg';
+        }
+
+        function ensureDrawSources() {
+            if (!mlMap) return;
+            if (!mlMap.getSource('draw-preview')) {
+                mlMap.addSource('draw-preview', { type:'geojson', data:{type:'FeatureCollection',features:[]} });
+                mlMap.addLayer({ id:'draw-fill-prev', type:'fill', source:'draw-preview',
+                    filter:['==','$type','Polygon'],
+                    paint:{'fill-color':'#22c55e','fill-opacity':0.18} });
+                mlMap.addLayer({ id:'draw-line-prev', type:'line', source:'draw-preview',
+                    paint:{'line-color':'#38bdf8','line-width':2,'line-dasharray':[5,3]} });
+                mlMap.addLayer({ id:'draw-dot-prev', type:'circle', source:'draw-preview',
+                    filter:['==','$type','Point'],
+                    paint:{'circle-radius':5,'circle-color':'#38bdf8','circle-stroke-width':2,'circle-stroke-color':'#fff'} });
+            }
+            if (!mlMap.getSource('drawn-zones')) {
+                mlMap.addSource('drawn-zones', { type:'geojson', data:{type:'FeatureCollection',features:[]} });
+                mlMap.addLayer({ id:'drawn-zones-fill', type:'fill', source:'drawn-zones',
+                    paint:{'fill-color':['get','color'],'fill-opacity':0.28} });
+                mlMap.addLayer({ id:'drawn-zones-line', type:'line', source:'drawn-zones',
+                    paint:{'line-color':['get','color'],'line-width':2} });
+                mlMap.addLayer({ id:'drawn-zones-label', type:'symbol', source:'drawn-zones',
+                    layout:{'text-field':['get','label'],'text-size':11,'text-anchor':'center'},
+                    paint:{'text-color':'#fff','text-halo-color':'rgba(0,0,0,.6)','text-halo-width':1.5} });
+            }
+        }
+
+        function startDraw() {
+            if (!mlMap) return;
+            ensureDrawSources();
+            drawMode = true; drawPts = [];
+            const btn = document.getElementById('btn-draw-start');
+            btn.classList.add('active');
+            btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Cancel`;
+            document.getElementById('draw-hint-bar').classList.add('show');
+            mlMap.getCanvas().style.cursor = 'crosshair';
+            // Single click = add vertex, double-click = finish
+            mlMap.on('click', onDrawClick);
+            mlMap.on('dblclick', onDrawDblClick);
+        }
+
+        function cancelDraw() {
+            if (!drawMode) return;
+            drawMode = false; drawPts = [];
+            const btn = document.getElementById('btn-draw-start');
+            btn.classList.remove('active');
+            btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Draw New Zone`;
+            document.getElementById('draw-hint-bar').classList.remove('show');
+            if (mlMap) {
+                mlMap.getCanvas().style.cursor = '';
+                mlMap.off('click', onDrawClick);
+                mlMap.off('dblclick', onDrawDblClick);
+                if (mlMap.getSource('draw-preview'))
+                    mlMap.getSource('draw-preview').setData({type:'FeatureCollection',features:[]});
+            }
+        }
+
+        function onDrawClick(e) {
+            // MapLibre fires click then dblclick; ignore if this is the 2nd of a dblclick
+            if (e._isDouble) return;
+            drawPts.push([e.lngLat.lng, e.lngLat.lat]);
+            updatePreview();
+        }
+
+        function onDrawDblClick(e) {
+            e.preventDefault(); // prevent map zoom-in
+            // Remove the extra point that the preceding single-click added
+            if (drawPts.length > 0) drawPts.pop();
+            finishZone();
+        }
+
+        function updatePreview() {
+            if (!mlMap || !mlMap.getSource('draw-preview')) return;
+            const feats = [];
+            // Vertex dots
+            drawPts.forEach(p => feats.push({type:'Feature',geometry:{type:'Point',coordinates:p},properties:{}}));
+            // Live line connecting vertices
+            if (drawPts.length >= 2) {
+                feats.push({type:'Feature',geometry:{type:'LineString',coordinates:[...drawPts,drawPts[0]]},properties:{}});
+            }
+            // Fill preview
+            if (drawPts.length >= 3) {
+                feats.push({type:'Feature',geometry:{type:'Polygon',coordinates:[[...drawPts,drawPts[0]]]},properties:{}});
+            }
+            mlMap.getSource('draw-preview').setData({type:'FeatureCollection',features:feats});
+        }
+
+        function finishZone() {
+            if (drawPts.length < 3) { cancelDraw(); return; }
+            const type = document.getElementById('pz-nbs-sel').value;
+            const imp  = ZI[type] || ZI.rain_garden;
+            const area = geoAreaM2(drawPts);
+            const runoff = area * 0.030 * imp.runoff;   // 30 mm rainfall event
+            const carbon = area * imp.carbon;
+            const id = ++zoneId;
+            zones.push({ id, pts: drawPts.slice(), type, area, runoff, carbon,
+                          color: imp.color, label: imp.label });
+            cancelDraw();
+            syncZonesLayer();
+            renderZonesPanel();
+        }
+
+        function syncZonesLayer() {
+            if (!mlMap || !mlMap.getSource('drawn-zones')) return;
+            const feats = zones.map(z => ({
+                type:'Feature',
+                geometry:{type:'Polygon',coordinates:[[...z.pts,z.pts[0]]]},
+                properties:{ color:z.color, label:`Zone ${z.id}` }
+            }));
+            mlMap.getSource('drawn-zones').setData({type:'FeatureCollection',features:feats});
+        }
+
+        function renderZonesPanel() {
+            const list = document.getElementById('pz-list');
+            if (!zones.length) {
+                list.innerHTML = '<div id="pz-empty">No zones drawn yet.<br>Click "Draw New Zone" to start.</div>';
+                ['pzt-area','pzt-runoff','pzt-carbon'].forEach(id => {
+                    document.getElementById(id).textContent = '—';
+                });
+                return;
+            }
+            list.innerHTML = zones.map(z => {
+                const imp = ZI[z.type];
+                return `<div class="zcard">
+                    <div class="zcard-top">
+                        <span class="zcard-name">Zone ${z.id}</span>
+                        <span class="zcard-badge" style="background:${imp.color}22;color:${imp.color};border:1px solid ${imp.color}44">${imp.label}</span>
+                        <button class="zcard-del" data-zid="${z.id}">✕</button>
+                    </div>
+                    <div class="zstats">
+                        <div class="zstat">
+                            <div class="zstat-v" style="color:#94a3b8">${fmtArea(z.area)}</div>
+                            <div class="zstat-l">Area</div>
+                        </div>
+                        <div class="zstat">
+                            <div class="zstat-v" style="color:#38bdf8">${z.runoff.toFixed(1)} m³</div>
+                            <div class="zstat-l">Runoff saved</div>
+                        </div>
+                        <div class="zstat">
+                            <div class="zstat-v" style="color:#22c55e">${fmtCarbon(z.carbon)}</div>
+                            <div class="zstat-l">Carbon/yr</div>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+
+            list.querySelectorAll('.zcard-del').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const zid = parseInt(btn.dataset.zid);
+                    zones = zones.filter(z => z.id !== zid);
+                    syncZonesLayer();
+                    renderZonesPanel();
+                });
+            });
+
+            const totArea   = zones.reduce((s,z)=>s+z.area,0);
+            const totRunoff = zones.reduce((s,z)=>s+z.runoff,0);
+            const totCarbon = zones.reduce((s,z)=>s+z.carbon,0);
+            document.getElementById('pzt-area').textContent   = fmtArea(totArea);
+            document.getElementById('pzt-runoff').textContent = totRunoff.toFixed(1)+' m³';
+            document.getElementById('pzt-carbon').textContent = fmtCarbon(totCarbon);
+        }
+
         overlay.querySelector('#tb-export').onclick = exportNBS;
         overlay.querySelector('#btn-close-panel').onclick = () => {
             document.getElementById('panel-nbs').classList.remove('open');
@@ -702,8 +1090,8 @@ function enterMode() {
             mlMap.on('load', () => {
                 setStatus('spin', 'Fetching building data…');
                 fetchBuildings()
-                    .then(gj => { addLayers(gj); setStatus('ok', `${gj.features.length} buildings loaded`); })
-                    .catch(e  => { console.warn('[3D]', e.message); addLayers(fallback()); setStatus('err', 'Demo mode'); });
+                    .then(gj => { addLayers(gj); setStatus('ok', `${gj.features.length} buildings loaded`); ensureDrawSources(); })
+                    .catch(e  => { console.warn('[3D]', e.message); addLayers(fallback()); setStatus('err', 'Demo mode'); ensureDrawSources(); });
             });
 
             mlMap.on('error', e => console.warn('[ML]', e.error?.message));
@@ -787,6 +1175,19 @@ function enterMode() {
                     'fill-extrusion-opacity': 0.9
                 }
             });
+            
+            // 添加一个高亮层
+            mlMap.addLayer({
+            'id': 'bldg-highlight',
+            'type': 'fill-extrusion',
+            'source': 'buildings',
+             'paint': {
+             'fill-extrusion-color': '#38bdf8',
+             'fill-extrusion-height': ['get', 'height'],
+             'fill-extrusion-opacity': 0.8
+           },
+             'filter': ['==', 'uid', ''] // 初始不显示任何高亮
+           });
 
             ['buildings-extrusion','buildings-base'].forEach(id => {
                 mlMap.on('click', id, onBldgClick);
@@ -842,40 +1243,56 @@ function enterMode() {
             updateSummary();
         }
 
-        // ── Building click ─────────────────────────────────────────────
-        function onBldgClick(e) {
-            if (!e.features?.length) return;
-            const f   = e.features[0];
-            const p   = f.properties;
-            selUID    = p.uid;
-            const cur = assignments[selUID] || 'none';
+// ── Building click ─────────────────────────────────────────────
+function onBldgClick(e) {
+    if (!e.features.length) return;
+    const f = e.features[0];
+    const p = f.properties;
+    selUID = p.uid; 
+    const cur = assignments[p.uid] || 'none';
 
-            // Update panel header
-            document.getElementById('panel-bldg-name').textContent = p.name || 'Building';
-            document.getElementById('panel-bldg-meta').innerHTML =
-                `${p.building} &nbsp;·&nbsp; ${p.height}m tall` +
-                (p.levels ? ` &nbsp;·&nbsp; ${p.levels} floors` : '');
-
-            // Highlight selected NBS row
-            document.querySelectorAll('.nbs-row').forEach(row => {
-                const k = row.dataset.nbs;
-                row.classList.toggle('sel', k === cur);
-            });
-
-            // Open panel
-            document.getElementById('panel-nbs').classList.add('open');
-            overlay.querySelector('#tb-nbs-panel').classList.add('on');
-
-            // Popup on map
-            if (currentPopup) currentPopup.remove();
-            currentPopup = new maplibregl.Popup({ offset: 8, maxWidth: '200px' })
-                .setLngLat(e.lngLat)
-                .setHTML(`
-                    <b style="color:#e2e8f0;font-size:12px">${p.name || 'Building'}</b><br>
-                    <span style="color:#64748b">${p.height}m &nbsp;·&nbsp; ${NBS[cur].icon} ${NBS[cur].label}</span>
-                `)
-                .addTo(mlMap);
+    // 1. 模拟一些基于研究的专业数据
+    // 假设层高 3.5m，计算建筑的大致体积
+    const volume = Math.round(p.height * 250); // 250为假设的平均底面积
+        
+        // 2. 根据当前的 NBS 类型计算具体的环境影响
+        let nbsImpact = "No Planning Solution Assigned";
+        if (cur !== 'none') {
+            const reduction = cur === 'green_roof' ? '55%' : (cur === 'rain_garden' ? '70%' : '30%');
+            nbsImpact = `<span style="color:${NBS[cur].color}">Estimate Reduction of ${reduction} Stormwater Runoff</span>`;
         }
+
+        // 3. 构建更专业的 Popup 内容
+        if (currentPopup) currentPopup.remove();
+        currentPopup = new maplibregl.Popup({ closeButton: false, className: 'bldg-popup' })
+            .setLngLat(e.lngLat)
+            .setHTML(`
+                <div style="padding: 8px; min-width: 180px; font-family: 'Inter', sans-serif;">
+                    <div style="border-bottom: 1px solid #38bdf840; margin-bottom: 8px; padding-bottom: 4px;">
+                        <strong style="color: #e2e8f0; font-size: 13px;">${p.name || 'Swords Project Site'}</strong>
+                    </div>
+                    
+                    <div style="font-size: 11px; color: #94a3b8; line-height: 1.6;">
+                        <div>🏢 Building Height: <span style="color:#f8fafc">${p.height}m (${p.levels} Floor(s))</span></div>
+                        <div>📐 Estimated Volume: <span style="color:#f8fafc">${volume} m³</span></div>
+                        <div style="margin-top:6px; padding-top:6px; border-top:1px solid rgba(255,255,255,0.05)">
+                            <b>NBS Status:</b> <span style="color:${NBS[cur].color}">${NBS[cur].icon} ${NBS[cur].label}</span>
+                        </div>
+                        <div style="margin-top:4px; font-style: italic; color: #38bdf8;">
+                            📊 Impact Assessment: ${nbsImpact}
+                        </div>
+                    <div style="margin-top:8px; font-size: 9px; color: #64748b; border-radius:4px; background:rgba(0,0,0,0.2); padding:4px;">
+                        UID: ${p.uid} | Location: Swords Central
+                    </div>
+                </div>
+            </div>
+        `)
+        .addTo(mlMap);
+
+        // 联动：点击建筑时，右侧面板自动选中对应的 NBS
+        const btn = document.querySelector(`.nbs-btn[data-id="${cur}"]`);
+        if (btn) btn.click();
+    }
 
         // NBS row click handler
         overlay.querySelector('#panel-nbs-btns').addEventListener('click', e => {
