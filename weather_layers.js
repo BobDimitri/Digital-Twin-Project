@@ -302,10 +302,15 @@
         fab.addEventListener('click', () => {
             panel.classList.toggle('open');
             fab.classList.toggle('open', panel.classList.contains('open'));
+            // Remove radar tile when panel closes
+            if (!panel.classList.contains('open') && tlLayer) {
+                map.removeLayer(tlLayer); tlLayer=null;
+            }
         });
 
         // Tab switching
         panel.querySelectorAll('.wx-tab').forEach(t => t.addEventListener('click', () => {
+            const prev = activeTab;
             panel.querySelectorAll('.wx-tab').forEach(x=>x.classList.remove('active'));
             panel.querySelectorAll('.wx-pane').forEach(x=>x.classList.remove('active'));
             t.classList.add('active');
@@ -313,6 +318,11 @@
             activeTab = t.dataset.tab;
             if (activeTab==='heatmap') toggleHeatmap(true);
             else toggleHeatmap(false);
+            // Radar: add tiles only when on Radar tab, remove when leaving
+            if (activeTab==='radar' && tlFrames.length) showFrame(tlIdx);
+            if (prev==='radar' && activeTab!=='radar' && tlLayer) {
+                map.removeLayer(tlLayer); tlLayer=null;
+            }
         }));
 
         // Wind: density
@@ -607,7 +617,9 @@
             tlFrames   = tlPast;
             tlIdx      = tlFrames.length-1;
             if(g('tl-sl')) g('tl-sl').max=Math.max(tlFrames.length-1,0);
-            showFrame(tlIdx);
+            // Do NOT call showFrame here — tiles must only be added when
+            // the user switches to the Radar tab, not on page load
+            if(g('tl-ts')) g('tl-ts').textContent='Ready';
         } catch(e) { setSt('err','Radar load failed'); }
     }
 
@@ -617,7 +629,7 @@
         if(tlLayer){map.removeLayer(tlLayer);tlLayer=null;}
         tlLayer=L.tileLayer(
             `https://tilecache.rainviewer.com${f.path}/256/{z}/{x}/{y}/2/1_1.png`,
-            {opacity:.72,zIndex:460,attribution:'RainViewer'}
+            {opacity:.72, zIndex:460, maxNativeZoom:12, attribution:'RainViewer'}
         ).addTo(map);
         const ts=new Date(f.time*1000);
         const str=ts.toLocaleString('en-IE',{weekday:'short',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit',timeZone:'Europe/Dublin'});
