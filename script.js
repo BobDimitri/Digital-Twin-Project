@@ -17,34 +17,34 @@ const CACHE_DURATION = 60 * 60 * 1000;   // 1小时（毫秒）
 const AUTO_CHECK_INTERVAL = 10 * 60 * 1000; // 每10分钟检查一次是否过期
 
 // ==================== 初始化地图 ====================
-map = L.map('map').setView([53.35, -7.26], 7);  // 爱尔兰中心
+map = L.map('map', { maxZoom: 19 }).setView([53.35, -7.26], 7);  // 爱尔兰中心
 
 // 底图定义
 baseLayers["OpenStreetMap"] = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    maxZoom: 19
+    maxZoom: 19, maxNativeZoom: 19
 });
 
 baseLayers["ESRI Satellite"] = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
     attribution: 'Tiles &copy; Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
-    maxZoom: 19
+    maxZoom: 19, maxNativeZoom: 19
 });
 
 baseLayers["ESRI Topo Map"] = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
     attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community',
-    maxZoom: 19
+    maxZoom: 19, maxNativeZoom: 19
 });
 
 baseLayers["CartoDB Light"] = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
     subdomains: 'abcd',
-    maxZoom: 20
+    maxZoom: 19, maxNativeZoom: 19
 });
 
 baseLayers["Stamen Terrain"] = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_terrain/{z}/{x}/{y}{r}.png', {
-    maxZoom: 20,
-    attribution: 'Map tiles by <a href="https://stamen.com">Stamen Design</a> (via Stadia Maps), Data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    subdomains: 'abcd'  // 可选，部分服务器支持
+    maxZoom: 18,
+    maxNativeZoom: 18,  // Stadia Maps Stamen Terrain only serves zoom 0-18
+    attribution: 'Map tiles by <a href="https://stamen.com">Stamen Design</a> (via Stadia Maps), Data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 });
 
 // 默认底图
@@ -268,6 +268,7 @@ const rainLayer = L.tileLayer(
   'https://tilecache.rainviewer.com/v2/radar/latest/256/{z}/{x}/{y}/2/1_1.png',
   {
     opacity: 0.7,
+    maxNativeZoom: 12,  // RainViewer radar tiles only available up to zoom 12
     attribution: 'RainViewer'
   }
 );
